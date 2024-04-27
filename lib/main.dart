@@ -29,7 +29,7 @@ class _BoardState extends State<Board> {
             decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.blueGrey.shade900,
-                width: 10,
+                width: 12,
               )
             ),
             child: GridView.count(
