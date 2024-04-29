@@ -18,6 +18,7 @@ class _BoardState extends State<Board> {
   int x = -1, y = -1;
   bool isPieceSelected = false;
   int player = 0;
+  List<String> deadWhitePieces = [], deadBlackPieces = [];
 
   @override
   void initState() {
@@ -31,62 +32,211 @@ class _BoardState extends State<Board> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Container(
-            height: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
-            width: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
-            decoration: BoxDecoration(
-              border: Border.all(
+          child: Stack(
+            children: [
+              Container(
+                height: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                width: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
                 color: Colors.blueGrey.shade900,
-                width: 12,
-              )
-            ),
-            child: GridView.count(
-              padding: EdgeInsets.zero,
-              crossAxisCount: 8,
-              children: List.generate(
-                64,
-                    (index) {
-                  return GestureDetector(
-                    onTap: () {
-                      int i = index~/8, j = index%8;
-                      if (isPieceSelected) {
-                        if(moves[i][j] == 1) {
-                          setState(() {
-                            var temp = pieces[i][j];
-                            pieces[i][j] = pieces[x][y];
-                            pieces[x][y] = temp[0] == '' ? temp : ['', Colors.transparent];
-                            player++;
-                          });
-                        }
-                        setState(() {
-                          resetMoves();
-                          isPieceSelected = false;
-                        });
-                      } else {
-                        findPossibleMoves(i, j);
-                        setState(() {
-                          x = i;
-                          y = j;
-                          isPieceSelected = true;
-                        });
-                      }
-                    },
-                    child: Container(
-                      color: getSquereColor(index),
-                      child: Center(
-                        child: Text(
-                          pieces[index~/8][index%8][0],
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: pieces[index~/8][index%8][1],
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(
+                          height: 12,
+                          width: 12,
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: 12,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                String columnName = String.fromCharCode('A'.codeUnitAt(0) + index);
+                                return Container(
+                                  width: (min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24) / 8,
+                                  height: 12,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    columnName,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 12,
+                          width: 12,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              scrollDirection: Axis.vertical,
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                String rowName = (8 - index).toString();
+                                return Container(
+                                  width: 12,
+                                  height: (min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24) / 8,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    rowName,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              scrollDirection: Axis.vertical,
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                String rowName = (8 - index).toString();
+                                return Container(
+                                  width: 12,
+                                  height: (min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24) / 8,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    rowName,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                },
+                    Row(
+                      children: [
+                        const SizedBox(
+                          height: 12,
+                          width: 12,
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: 12,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                String columnName = String.fromCharCode('A'.codeUnitAt(0) + index);
+                                return Container(
+                                  width: (min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24) / 8,
+                                  height: 12,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    columnName,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                          width: 12,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+              Container(
+                height: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                width: min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.transparent,
+                      width: 12,
+                    )
+                ),
+                child: GridView.count(
+                  padding: EdgeInsets.zero,
+                  crossAxisCount: 8,
+                  children: List.generate(
+                    64,
+                        (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          int i = index~/8, j = index%8;
+                          if(player%2 == (pieces[i][j][1] == Colors.black ? 0 : 1) || isPieceSelected) {
+                            if (isPieceSelected) {
+                              if (moves[i][j] == 1) {
+                                setState(() {
+                                  var temp = pieces[i][j];
+                                  pieces[i][j] = pieces[x][y];
+                                  pieces[x][y] = temp[0] == '' ? temp : ['', Colors.transparent];
+                                  if(temp[0] != '') {
+                                    temp[1] == Colors.black ? deadBlackPieces.add(temp[0]) : deadWhitePieces.add(temp[0]);
+                                    deadWhitePieces.sort();
+                                    deadBlackPieces.sort();
+                                  }
+                                  player++;
+                                });
+                              }
+                              setState(() {
+                                resetMoves();
+                                isPieceSelected = false;
+                              });
+                            } if(!isPieceSelected){
+                              findPossibleMoves(i, j);
+                              setState(() {
+                                x = i;
+                                y = j;
+                                isPieceSelected = true;
+                              });
+                            }
+                          }
+                        },
+                        child: Container(
+                          color: getSquereColor(index),
+                          child: Center(
+                            child: Text(
+                              pieces[index~/8][index%8][0],
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: pieces[index~/8][index%8][1],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -99,9 +249,9 @@ class _BoardState extends State<Board> {
       return pieces[i][j][0] != '' ? Colors.red : Colors.greenAccent;
     }
     if(i%2 == 0) {
-      return j%2 == 0 ? Colors.blueGrey : Colors.blueGrey.shade100;
-    } else {
       return j%2 == 1 ? Colors.blueGrey : Colors.blueGrey.shade100;
+    } else {
+      return j%2 == 0 ? Colors.blueGrey : Colors.blueGrey.shade100;
     }
   }
 
