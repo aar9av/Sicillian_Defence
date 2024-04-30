@@ -2,7 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const Board());
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Board(),
+  ));
 }
 
 class Board extends StatefulWidget {
@@ -29,7 +32,6 @@ class _BoardState extends State<Board> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
           child: Stack(
@@ -202,6 +204,10 @@ class _BoardState extends State<Board> {
                                     deadWhitePieces.sort();
                                     deadBlackPieces.sort();
                                   }
+                                  if (temp[0] == '♚') {
+                                    String winner = temp[1] == Colors.black ? "White" : "Black";
+                                    showWinnerDialog('$winner Wins !!!');
+                                  }
                                   player++;
                                 });
                               }
@@ -274,7 +280,13 @@ class _BoardState extends State<Board> {
         pieces[i][j] = [getPieceValue(i, j), getPieceColor(i)];
       }
     }
+    resetMoves();
+    x = -1;
+    y = -1;
+    isPieceSelected = false;
     player = 0;
+    deadWhitePieces = [];
+    deadBlackPieces = [];
   }
 
   String getPieceValue(int i, int j) {
@@ -455,4 +467,25 @@ class _BoardState extends State<Board> {
     }
   }
 
+  showWinnerDialog(String text) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Game Over'),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  resetBoard();
+                });
+                Navigator.pop(context);
+              },
+              child: const Text('New Game'),),
+          ],
+        );
+      },
+    );
+  }
 }
