@@ -220,15 +220,31 @@ class _BoardState extends State<Board> {
                           }
                         },
                         child: Container(
-                          color: getSquereColor(index),
-                          child: Center(
-                            child: Text(
-                              pieces[index~/8][index%8][0],
-                              style: TextStyle(
-                                fontSize: 40,
-                                color: pieces[index~/8][index%8][1],
+                          color: moves[index~/8][index%8] == 1 &&  pieces[index~/8][index%8][0] != '' ? Colors.red.shade300 : getSquereColor(index),
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: Container(
+                                  height: moves[index~/8][index%8] == 1 ? (min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24) / 24 : 0,
+                                  width: moves[index~/8][index%8] == 1 ? (min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - 24) / 24 : 0,
+                                  decoration: BoxDecoration(
+                                    color: pieces[index~/8][index%8][0] != '' ? Colors.transparent : Colors.green,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(12),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Center(
+                                child: Text(
+                                  pieces[index~/8][index%8][0],
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                    color: pieces[index~/8][index%8][1],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -245,9 +261,6 @@ class _BoardState extends State<Board> {
 
   Color getSquereColor(int index) {
     int i = index~/8, j = index%8;
-    if(moves[i][j] == 1) {
-      return pieces[i][j][0] != '' ? Colors.red : Colors.greenAccent;
-    }
     if(i%2 == 0) {
       return j%2 == 1 ? Colors.blueGrey : Colors.blueGrey.shade100;
     } else {
