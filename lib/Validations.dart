@@ -37,7 +37,7 @@ class Validations {
       updateMoveIfEmptyOrOpponent(i + chance, j, chance);
     }
     if ((i == 1 && chance == 1) || (i == 6 && chance == -1)) {
-      if (isValidSquare(i + 2 * chance, j) && LoadBoard.pieces[i + 2 * chance][j][0] == '') {
+      if (isValidSquare(i + 2 * chance, j) && LoadBoard.pieces[i + 2 * chance][j][0] == '' && LoadBoard.pieces[i + chance][j][0] == '') {
         updateMoveIfEmptyOrOpponent(i + 2*chance, j, chance);
       }
     }
@@ -117,6 +117,15 @@ class Validations {
           }
         }
       }
+    }
+    if (LoadBoard.isCastle[1] && LoadBoard.isCastle[0] && LoadBoard.pieces[0][1][0] == '' && LoadBoard.pieces[0][2][0] == '' && LoadBoard.pieces[0][3][0] == '' && LoadBoard.pieces[i][j][1] == Colors.black) {
+      LoadBoard.moves[0][2] = 1;
+    } else if (LoadBoard.isCastle[1] && LoadBoard.isCastle[2] && LoadBoard.pieces[0][5][0] == '' && LoadBoard.pieces[0][6][0] == ''  && LoadBoard.pieces[i][j][1] == Colors.black) {
+      LoadBoard.moves[0][6] = 1;
+    } else if (LoadBoard.isCastle[4] && LoadBoard.isCastle[3] && LoadBoard.pieces[7][1][0] == '' && LoadBoard.pieces[7][2][0] == '' && LoadBoard.pieces[7][3][0] == ''  && LoadBoard.pieces[i][j][1] == Colors.white) {
+      LoadBoard.moves[7][2] = 1;
+    } else if (LoadBoard.isCastle[4] && LoadBoard.isCastle[5] && LoadBoard.pieces[7][5][0] == '' && LoadBoard.pieces[7][6][0] == ''  && LoadBoard.pieces[i][j][1] == Colors.white) {
+      LoadBoard.moves[7][6] = 1;
     }
   }
 

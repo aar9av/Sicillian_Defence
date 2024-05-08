@@ -7,7 +7,7 @@ class LoadBoard {
   static bool isPieceSelected = false;
   static int player = 0;
   static List<String> deadWhitePieces = [], deadBlackPieces = [];
-
+  static List<bool> isCastle = List.generate(6, (index) => true);
 
   static Color getSquereColor(int index) {
     int i = index~/8, j = index%8;
@@ -58,6 +58,7 @@ class LoadBoard {
     player = 0;
     deadWhitePieces = [];
     deadBlackPieces = [];
+    isCastle = List.generate(6, (index) => true);
   }
 
   static void resetMoves() {

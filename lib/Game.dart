@@ -38,6 +38,28 @@ class _GameState extends State<Game> {
                       var temp = LoadBoard.pieces[i][j];
                       LoadBoard.pieces[i][j] = LoadBoard.pieces[LoadBoard.x][LoadBoard.y];
                       LoadBoard.pieces[LoadBoard.x][LoadBoard.y] = temp[0] == '' ? temp : ['', Colors.transparent];
+                      if(LoadBoard.pieces[i][j][0] == '♚' && (LoadBoard.y - j == 2 || LoadBoard.y - j == -2)) {
+                        if(j == 2) {
+                          LoadBoard.pieces[i][0] = ['', Colors.transparent];
+                          LoadBoard.pieces[i][3] = ['♜', LoadBoard.pieces[i][j][1]];
+                        } else if (j == 6) {
+                          LoadBoard.pieces[i][7] = ['', Colors.transparent];
+                          LoadBoard.pieces[i][5] = ['♜', LoadBoard.pieces[i][j][1]];
+                        }
+                      }
+                      if(LoadBoard.x == 0 && LoadBoard.y == 0) {
+                        LoadBoard.isCastle[0] = false;
+                      } else if(LoadBoard.x == 0 && LoadBoard.y == 4) {
+                        LoadBoard.isCastle[1] = false;
+                      } else if(LoadBoard.x == 0 && LoadBoard.y == 7) {
+                        LoadBoard.isCastle[2] = false;
+                      } else if(LoadBoard.x == 7 && LoadBoard.y == 0) {
+                        LoadBoard.isCastle[3] = false;
+                      } else if(LoadBoard.x == 7 && LoadBoard.y == 4) {
+                        LoadBoard.isCastle[4] = false;
+                      } else if(LoadBoard.x == 7 && LoadBoard.y == 7) {
+                        LoadBoard.isCastle[5] = false;
+                      }
                       if(temp[0] != '') {
                         temp[1] == Colors.black ? LoadBoard.deadBlackPieces.add(temp[0]) : LoadBoard.deadWhitePieces.add(temp[0]);
                         LoadBoard.deadWhitePieces.sort();
