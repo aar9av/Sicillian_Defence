@@ -30,69 +30,8 @@ class Validations {
     if (LoadBoard.pieces[i][j][0] == '♛') {
       findPossibleMovesQueen(i, j);
     }
-    /*var temp = LoadBoard.moves;
-    LoadBoard.resetMoves();
-    for (int x = 0; x < 8; ++x) {
-      for (int y = 0; y < 8; ++y) {
-        if (temp[x][y] == 1) {
-          var temp = LoadBoard.pieces[x][y];
-          LoadBoard.pieces[x][y] = LoadBoard.pieces[i][j];
-          LoadBoard.pieces[i][j] = ['', Colors.transparent];
-          if (isKingInCheck(LoadBoard.player % 2 == 0 ? Colors.black : Colors.white)) {
-            temp[x][y] = 0;
-          }
-          LoadBoard.pieces[i][j] = LoadBoard.pieces[x][y];
-          LoadBoard.pieces[x][y] = temp;
-        }
-      }
-    }
-    LoadBoard.moves = temp;*/
+    chkForKingCheck(i, j);
   }
-
-  /*static bool isKingInCheck(Color kingColor) {
-    int x = -1, y = -1;
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        if (LoadBoard.pieces[i][j][0] == '♚' && LoadBoard.pieces[i][j][1] == kingColor) {
-          x = i;
-          y = j;
-          break;
-        }
-      }
-    }
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        if (LoadBoard.pieces[i][j][0] != '' && LoadBoard.pieces[i][j][1] != kingColor) {
-          canPieceAttackPosition(i, j);
-        }
-      }
-    }
-    if (LoadBoard.moves[x][y] == 1) {
-      return true;
-    }
-    return false;
-  }
-
-  static void canPieceAttackPosition(int i, int j) {
-    if (LoadBoard.pieces[i][j][0] == '♙') {
-      findPossibleMovesPawn(i, j);
-    }
-    if (LoadBoard.pieces[i][j][0] == '♜') {
-      findPossibleMovesRook(i, j);
-    }
-    if (LoadBoard.pieces[i][j][0] == '♞') {
-      findPossibleMovesKnight(i, j);
-    }
-    if (LoadBoard.pieces[i][j][0] == '♝') {
-      findPossibleMovesBishop(i, j);
-    }
-    if (LoadBoard.pieces[i][j][0] == '♚') {
-      findPossibleMovesKing(i, j);
-    }
-    if (LoadBoard.pieces[i][j][0] == '♛') {
-      findPossibleMovesQueen(i, j);
-    }
-  }*/
 
   static void findPossibleMovesPawn(int i, int j) {
     int chance = LoadBoard.pieces[i][j][1] == Colors.black ? 1 : -1;
@@ -232,6 +171,78 @@ class Validations {
         LoadBoard.moves[i][j] = 1;
       }
       return true;
+    }
+  }
+
+  static void chkForKingCheck(int i, int j) {
+    List<List<int>> temp = [];
+    for(int x=0; x<8; ++x) {
+      List<int> t = [];
+      for(int y=0; y<8; ++y) {
+        t.add(LoadBoard.moves[x][y]);
+      }
+      temp.add(t);
+    }
+    for (int x = 0; x < 8; ++x) {
+      for (int y = 0; y < 8; ++y) {
+        if (temp[x][y] == 1) {
+          LoadBoard.resetMoves();
+          var t = LoadBoard.pieces[x][y];
+          LoadBoard.pieces[x][y] = LoadBoard.pieces[i][j];
+          LoadBoard.pieces[i][j] = ['', Colors.transparent];
+          if (isKingInCheck(LoadBoard.player % 2 == 0 ? Colors.black : Colors.white)) {
+            temp[x][y] = 0;
+          }
+          LoadBoard.pieces[i][j] = LoadBoard.pieces[x][y];
+          LoadBoard.pieces[x][y] = t;
+        }
+      }
+    }
+    LoadBoard.moves = temp;
+  }
+
+  static bool isKingInCheck(Color kingColor) {
+    int x = -1, y = -1;
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (LoadBoard.pieces[i][j][0] == '♚' && LoadBoard.pieces[i][j][1] == kingColor) {
+          x = i;
+          y = j;
+          break;
+        }
+      }
+    }
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (LoadBoard.pieces[i][j][0] != '' && LoadBoard.pieces[i][j][1] != kingColor) {
+          canPieceAttackPosition(i, j);
+        }
+      }
+    }
+    if (LoadBoard.moves[x][y] == 1) {
+      return true;
+    }
+    return false;
+  }
+
+  static void canPieceAttackPosition(int i, int j) {
+    if (LoadBoard.pieces[i][j][0] == '♙') {
+      findPossibleMovesPawn(i, j);
+    }
+    if (LoadBoard.pieces[i][j][0] == '♜') {
+      findPossibleMovesRook(i, j);
+    }
+    if (LoadBoard.pieces[i][j][0] == '♞') {
+      findPossibleMovesKnight(i, j);
+    }
+    if (LoadBoard.pieces[i][j][0] == '♝') {
+      findPossibleMovesBishop(i, j);
+    }
+    if (LoadBoard.pieces[i][j][0] == '♚') {
+      findPossibleMovesKing(i, j);
+    }
+    if (LoadBoard.pieces[i][j][0] == '♛') {
+      findPossibleMovesQueen(i, j);
     }
   }
 }
