@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 
 class LoadBoard {
@@ -6,15 +8,14 @@ class LoadBoard {
   static int x = -1, y = -1;
   static bool isPieceSelected = false;
   static int player = 0;
-  static List<String> deadWhitePieces = [], deadBlackPieces = [];
   static List<bool> isCastle = List.generate(6, (index) => true);
 
   static Color getSquereColor(int index) {
     int i = index~/8, j = index%8;
     if(i%2 == 0) {
-      return j%2 == 1 ? Colors.blueGrey : Colors.blueGrey.shade100;
+      return j % 2 == 1 ? Colors.blueGrey : Colors.blueGrey.shade100;
     } else {
-      return j%2 == 0 ? Colors.blueGrey : Colors.blueGrey.shade100;
+      return j % 2 == 0 ? Colors.blueGrey : Colors.blueGrey.shade100;
     }
   }
 
@@ -56,8 +57,6 @@ class LoadBoard {
     y = -1;
     isPieceSelected = false;
     player = 0;
-    deadWhitePieces = [];
-    deadBlackPieces = [];
     isCastle = List.generate(6, (index) => true);
   }
 
