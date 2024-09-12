@@ -7,7 +7,7 @@ class LoadBoard {
   static List<List<int>> moves = List.generate(8, (i) => List<int>.filled(8, 0));
   static int x = -1, y = -1;
   static bool isPieceSelected = false;
-  static int player = 0;
+  static int player = 1;
   static List<bool> isCastle = List.generate(6, (index) => true);
 
   static Color getSquereColor(int index) {
@@ -56,7 +56,7 @@ class LoadBoard {
     x = -1;
     y = -1;
     isPieceSelected = false;
-    player = 0;
+    player = 1;
     isCastle = List.generate(6, (index) => true);
   }
 
