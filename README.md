@@ -1,16 +1,7 @@
-# sicillian_defence
 
-A new Flutter project.
+A chess game with two modes: 
+Play with AI (implemented using Google Gemini AI) for automated chess moves and
+Two-player mode, incorporating features like moves validation, pawn promotion, castling, check warnings, and
+possible move indicators.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Tech Stack: Flutter, Dart, Google Gemini AI API.
